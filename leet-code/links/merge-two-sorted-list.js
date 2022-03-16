@@ -62,9 +62,36 @@ function mergeTwoLists2(list1, list2) {
     list1.next = mergeTwoLists2(list1.next, list2);
     return list1;
   } else {
-    list2.next = mergeTwoLists(list1, list2.next);
+    list2.next = mergeTwoLists2(list1, list2.next);
     return list2;
   }
+}
+
+/**
+ * 合并两个有序列表(dummy节点)
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ */
+function mergeTwoLists3(list1, list2) {
+  let dummy = new ListNode();
+  let curr = dummy;
+  while (list1 && list2) {
+    if (list1.val < list2.val) {
+      curr.next = list1;
+      list1 = list1.next;
+    } else {
+      curr.next = list2;
+      list2 = list2.next;
+    }
+    curr = curr.next;
+  }
+  if (list1 == null) {
+    curr.next = list2;
+  }
+  if (list2 == null) {
+    curr.next = list1;
+  }
+  return dummy.next;
 }
 
 const tests = [
@@ -141,7 +168,7 @@ for (let i = 0; i < tests.length; i++) {
   let list1 = arrayToListNode(test.list1);
   let list2 = arrayToListNode(test.list2);
   let expect = arrayToListNode(test.expect);
-  let list = mergeTwoLists2(list1, list2);
+  let list = mergeTwoLists3(list1, list2);
   if (identicalListNode(list, expect)) {
     console.log(`${i}: pass`);
   } else {
