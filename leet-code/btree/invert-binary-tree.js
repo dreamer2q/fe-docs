@@ -1,4 +1,4 @@
-import { TreeNode } from "./btree.js";
+import { TreeNode } from "./tree-node.js";
 
 /**
  * 翻转二叉树
