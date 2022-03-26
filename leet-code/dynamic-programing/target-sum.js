@@ -117,6 +117,11 @@ function subsets(nums, num) {
 
 const tests = [
   {
+    nums: [1, 2, 3, 5],
+    target: 0,
+    expect: 0,
+  },
+  {
     nums: [1],
     target: 2,
     expect: 0,
