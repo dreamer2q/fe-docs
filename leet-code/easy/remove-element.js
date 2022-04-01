@@ -35,6 +35,24 @@ var removeElement = function (nums, val) {
   return nums.length - len;
 };
 
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement2 = function (nums, val) {
+  let s = 0;
+  let p = 0;
+  while (p < nums.length) {
+    if (nums[p] !== val) {
+      nums[s] = nums[p];
+      s++;
+    }
+    p++;
+  }
+  return s;
+};
+
 const tests = [
   {
     nums: [4, 4, 5],
@@ -92,7 +110,7 @@ const tests = [
 
 for (let i = 0; i < tests.length; i++) {
   let test = tests[i];
-  let res = removeElement([...test.nums], test.val);
+  let res = removeElement2([...test.nums], test.val);
   if (res === test.expect) {
     console.log(`${i}: passed`);
   } else {
