@@ -9,8 +9,20 @@
  * @return {number[][]}
  */
 var subsets = function (nums) {
+  tmp = [];
   let res = [];
   backtrack(nums, 0, res);
+  console.log(res);
+};
+
+/**
+ * @param {number[]} nums
+ */
+var subsets2 = function (nums) {
+  tmp = [];
+  let res = [];
+  nums.sort((a, b) => a - b);
+  backtrack2(nums, 0, res);
   console.log(res);
 };
 
@@ -34,6 +46,21 @@ function backtrack(nums, i, res) {
   }
 }
 
+function backtrack2(nums, index, res) {
+  res.push([...tmp]);
+
+  for (let b = index; b < nums.length; b++) {
+    // nums 需要有序
+    // 需要对同一个节点, 相邻的且相等的元素进行剪枝
+    if (b > index && nums[b] == nums[b - 1]) {
+      continue;
+    }
+    tmp.push(nums[b]);
+    backtrack2(nums, b + 1, res);
+    tmp.pop();
+  }
+}
+
 /**
  * 判断两个数组元素是否相等（顺序可以不一致）
  * @param {number[]} arr1
@@ -53,3 +80,4 @@ function isArrayEqual(arr1, arr2) {
 }
 
 subsets([1, 1, 2, 2]);
+subsets2([1, 1, 2, 2]);
