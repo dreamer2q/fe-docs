@@ -79,22 +79,62 @@ var minDistance2 = function (word1, word2) {
   return dp[word1.length][word2.length];
 };
 
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance3 = function (word1, word2) {
+  // 交换，使得 word2 属于最短一方, 这样节约最省空间
+  if (word1.length < word2.length) {
+    let t = word2;
+    word2 = word1;
+    word1 = t;
+  }
+
+  // 初始化基准情况
+  let dp = [];
+  for (let i = 0; i <= word2.length; i++) {
+    dp[i] = i;
+  }
+
+  // 状态转移
+  for (let i = 1; i <= word1.length; i++) {
+    // base case
+    let dp_i = i - 1;
+    dp[0] = i;
+    for (let j = 1; j <= word2.length; j++) {
+      let t = dp[j];
+      if (word1[i - 1] === word2[j - 1]) {
+        // skip
+        dp[j] = dp_i;
+      } else {
+        dp[j] = 1 + Math.min(dp_i, dp[j - 1], dp[j]);
+      }
+      dp_i = t;
+    }
+  }
+
+  return dp[word2.length];
+};
+
+
 const tests = [
+  {
+    word1: "rad",
+    word2: "apple",
+    expect: 5,
+  },
   {
     word1: "dinitrophenylhydrazine",
     word2: "benzalphenylhydrazone",
     expect: 7,
   },
-  {
-    word1: "horse",
-    word2: "ros",
-    expect: 3,
-  },
 ];
 
 for (let i = 0; i < tests.length; i++) {
   let test = tests[i];
-  let res = minDistance2(test.word1, test.word2);
+  let res = minDistance3(test.word1, test.word2);
   if (res != test.expect) {
     console.log(`${i}: expect ${test.expect}, got ${res}`);
   } else {
